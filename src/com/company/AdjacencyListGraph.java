@@ -1,5 +1,6 @@
 package com.company;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 //Use an adjacency vertex graph to make a graph with the data provided on the next pages.
@@ -44,6 +45,35 @@ public class AdjacencyListGraph {
 
         }
     }
+
+
+    /*
+    public void reverseAdjGraph(){
+        Vertex currentFrom;
+        Vertex newFrom;
+        AdjacencyListGraph reverseGraph = new AdjacencyListGraph();
+        ArrayList<Edge> currentFromOutEdgesList;
+        ArrayList<Vertex> adjList = vertices;
+
+
+        for(int i = 0; i < adjList.size(); i++){
+            currentFrom = adjList.get(i);
+            currentFromOutEdgesList = currentFrom.getOutEdges();
+
+            for(int j = 0; j < currentFromOutEdgesList.size(); j++){
+                newFrom = adjList.get(j);
+
+
+                //add reverse vertex
+                reverseGraph.newEdge(newFrom, currentFrom, 1);
+
+            }
+        }
+    }
+
+     */
+
+
 
 
 }
