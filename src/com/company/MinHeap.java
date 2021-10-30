@@ -80,4 +80,23 @@ public class MinHeap<T extends Comparable>{
             }
         }
     }
+
+
+
+    // To print the contents of the heap
+    public void printHeap()
+    {
+        for (int i = 0; i <= minheap.size(); i++) {
+
+            // Printing the parent and both childrens
+            System.out.print(
+                    " PARENT : " + minheap.get(parent(i))
+                            + " LEFT CHILD : " + minheap.get(leftChild(i))
+                            + " RIGHT CHILD :" + minheap.get(rightChild(i)));
+
+            // By here new line is required
+            System.out.println();
+        }
+    }
+
 }

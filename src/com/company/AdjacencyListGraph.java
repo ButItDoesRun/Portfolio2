@@ -1,6 +1,5 @@
 package com.company;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 //Use an adjacency vertex graph to make a graph with the data provided on the next pages.
@@ -44,6 +43,18 @@ public class AdjacencyListGraph {
             System.out.println(" ");
 
         }
+    }
+
+
+    //method for inserting vertices into a heap
+    public MinHeap<Vertex> addAdjGraphToHeap(){
+        MinHeap<Vertex> newHeap = new MinHeap<>();
+
+        for(int i = 0; i < vertices.size(); i++){
+            newHeap.insert(vertices.get(i));
+        }
+
+        return newHeap;
     }
 
 

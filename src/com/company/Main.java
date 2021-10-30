@@ -8,13 +8,29 @@ public class Main {
         AdjacencyListGraph adjGraph = insertGraphData();
         //AdjacencyListGraph adjGraph2 = insertGraphData();
 
-        adjGraph.printGraph();
+        //adjGraph.printGraph();
 
         //System.out.println("Dividing line--------------------------------------------------------");
 
         //adjGraph2.reverseAdjGraph();
 
         //adjGraph2.printGraph();
+
+
+        MinHeap<Vertex> heap = adjGraph.addAdjGraphToHeap();
+
+        //test printing
+        while(!heap.isEmpty()){
+            System.out.println(heap.extractMin().getName());
+
+
+
+        }
+
+
+        ///System.out.println(heap.printHeap());
+
+        //System.out.println(heap.printHeap());
 
 
 
