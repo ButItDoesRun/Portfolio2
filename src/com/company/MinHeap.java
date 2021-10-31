@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MinHeap<T extends Comparable>{
-    HashMap<T, Integer>  positionTable=new HashMap<>();
+    HashMap<T, Integer>  positionTable=new HashMap<>(); //so we make a map over our edges (T) with the edge(u,v), and dist
     ArrayList<T> minheap;
     private int size;
     public MinHeap(){
@@ -33,11 +33,11 @@ public class MinHeap<T extends Comparable>{
     }
     public void insert(T item){
         minheap.add(item);
-        positionTable.put(item,size);
-        size++;
-        decreasekey(size-1);
+        positionTable.put(item,size); //last position of an array (position is 1 smaller than size)
+        size++; //the size of an array
+        decreaseKey(size-1);
     }
-    public  void decreasekey(int pos){
+    public  void decreaseKey(int pos){
         int currentpos=pos;
         while(minheap.get(currentpos).compareTo(minheap.get(parent(currentpos)))<0){
             swap(currentpos,parent(currentpos));
@@ -57,7 +57,7 @@ public class MinHeap<T extends Comparable>{
         minheap.set(0,minheap.get(size-1));
         positionTable.put(minheap.get(0),0);
         size--;
-        increasekey(0);
+        increaseKey(0);
         return min;
     }
     private boolean movedown(int pos){
@@ -65,7 +65,7 @@ public class MinHeap<T extends Comparable>{
         boolean rightsmaller = rightChild(pos)<size && minheap.get(rightChild(pos)).compareTo(minheap.get(pos))<0;
         return (leftsmaller || rightsmaller);
     }
-    public void increasekey(int pos){
+    public void increaseKey(int pos){
         int currentpos = pos;
         while (movedown(currentpos)){
             int rpos=rightChild(currentpos);

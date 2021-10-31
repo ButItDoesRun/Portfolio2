@@ -25,8 +25,9 @@ public class AdjacencyListGraph {
             return;
 
         }
-
-        Edge newE = new Edge(from, to, dist);
+        //this does that two edges are added pr. newEdge() call to make the graph undirected
+        Edge edgeFromTo = new Edge(from, to, dist);
+        Edge edgeToFrom = new Edge(to, from, dist);
 
     }
 
@@ -55,6 +56,64 @@ public class AdjacencyListGraph {
         }
 
         return newHeap;
+    }
+
+    public void MSTPrims() {
+        MinHeap<Vertex> Q = new MinHeap<>();
+        //To make a spannning tree you need to know the distances between to vertices, and where a node cam from
+        //Because of the adj-datastructure my elements need to be accessed through a iteration of the list
+        for (int vertex = 0; vertex < this.vertices.size(); vertex++) {
+            //all vertex dist are set to Max_value (infinity) - basically says its infinitely far from the other nodes
+            vertices.get(vertex).setDistance(Integer.MAX_VALUE);
+            //since we don't start out with a predecessor before we iterate we set them all to null
+            vertices.get(vertex).setPrevious(null); //can put -1 instead
+            vertices.get(vertex).visited = false;
+            Q.insert(vertices.get(vertex));
+        }
+
+        //as we don't wanna set distance to the root if its empty.
+        if (vertices.size() > 0) {
+            int root = 0;
+            vertices.get(root).setDistance(0); //if not empty distance to the roo is 0 - meaning we are starting at 0.
+            int position = Q.getPosition(vertices.get(root)); //getting the position of the starting vertex
+
+            Q.decreaseKey(position); //Fixing the minheap since we changed the value of the starting vertex.
+            int MST = 0;
+
+            while (!Q.isEmpty()) {
+                Vertex u = Q.extractMin(); //Edge consists of (u,v). Extract minimum (the smallest u vertex).
+                for (int vIndex = 0; vIndex < u.getOutEdges().size(); vIndex++) {
+                    Edge v = u.getOutEdges().get(vIndex); //update the distance - done by getting the new outEdge to u
+
+                    if (v.getWeight() < v.getToV().distance) {
+                        v.getToV().setDistance(v.getWeight());
+                        v.getToV().setPrevious(u);
+                        int pos = Q.getPosition(v.getToV()); //get position
+                        Q.decreaseKey(pos);
+                    }
+                }
+
+                //print only if
+                if (u.previous != null) {
+                    //Printing out the edges in the MST
+                    System.out.println("Distance from " + u.previous.getName() + " to " + u.getName() + " is " +
+                            u.getDistance() + " km.");
+                }
+
+                MST += u.distance;
+            }
+
+            System.out.println("Minimum Spanning Tree Total:");
+            //Printing the total distance of MST
+            System.out.println("MST distance is: " + MST + " km.");
+            //Printing the total price of the spanning tree
+            System.out.println("MST price is: " + MST * 100000 + "DKK");
+
+
+
+
+
+        }
     }
 
 
@@ -94,6 +153,8 @@ class Vertex implements Comparable<Vertex>{
     private String name;
     private ArrayList<Edge> outEdges;
     Integer distance = Integer.MAX_VALUE;
+    Vertex previous = null;
+    boolean visited = false;
 
     public Vertex(String id){
         this.name = id;
@@ -121,6 +182,7 @@ class Vertex implements Comparable<Vertex>{
 
     //All getters and setters for class (generated) --> right-click, generate, all options clicked.
     //(this is needed because variable this.name is private
+
     public String getName() {
         return name;
     }
@@ -144,17 +206,33 @@ class Vertex implements Comparable<Vertex>{
     public void setDistance(Integer distance) {
         this.distance = distance;
     }
+
+    public Vertex getPrevious() {
+        return previous;
+    }
+
+    public void setPrevious(Vertex previous) {
+        this.previous = previous;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
 }
 
 
 
 
-class Edge{
+class Edge {
     private Vertex fromV;
     private Vertex toV;
     private Integer weight; // change to Integer to Double if too big
 
-    public Edge(Vertex from, Vertex to, Integer cost){ //cost is weight
+    public Edge(Vertex from, Vertex to, Integer cost) { //cost is weight
         fromV = from;
         toV = to;
         weight = cost;
@@ -186,5 +264,6 @@ class Edge{
     public void setWeight(Integer weight) {
         this.weight = weight;
     }
+  }
 
-}
+

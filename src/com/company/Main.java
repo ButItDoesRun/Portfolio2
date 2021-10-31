@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Main {
 
@@ -17,15 +18,33 @@ public class Main {
         //adjGraph2.printGraph();
 
 
-        MinHeap<Vertex> heap = adjGraph.addAdjGraphToHeap();
+        //MinHeap<Vertex> heap = adjGraph.addAdjGraphToHeap();
+
+        //Iterator<Vertex> itrHeap = heap.minheap.iterator();
+
+
+        /*
+        while(itrHeap.hasNext()){
+            Vertex itH = itrHeap.next();
+            System.out.println(itH.getName() + " , " + itH.getOutEdges());
+        }
+
+         */
 
         //test printing
-        while(!heap.isEmpty()){
-            System.out.println(heap.extractMin().getName());
+       // while(!heap.isEmpty()){
+            //System.out.println(heap.extractMin().getName());
+
+
+        //}
+
+
+        adjGraph.printGraph();
+        adjGraph.MSTPrims();
 
 
 
-        }
+
 
 
         ///System.out.println(heap.printHeap());
