@@ -44,9 +44,6 @@ public class MinHeap<T extends Comparable>{
             currentpos=parent(currentpos);
         }
     }
-    public T viewMin(){
-        return minheap.get(0);
-    }
     public  boolean isEmpty(){
         if (size>0)
             return false;
