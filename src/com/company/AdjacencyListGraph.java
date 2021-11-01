@@ -46,21 +46,18 @@ public class AdjacencyListGraph {
 
     public void MSTPrims() {
         MinHeap<Vertex> Q = new MinHeap<>();
-        //To make a spannning tree you need to know the distances between to vertices, and where a node came from
-        //Because of the adj-datastructure my elements need to be accessed through a iteration of the list
+
         for (int vertex = 0; vertex < vertices.size(); vertex++) {
-            //all vertex dist are set to Max_value (infinity) - basically says its infinitely far from the other nodes
+            //all vertex dist are set to Max_value (infinity)
             vertices.get(vertex).setDistance(Integer.MAX_VALUE); //the heap key
             //since we don't start out with a predecessor before we iterate we set them all to null
-            vertices.get(vertex).setPrevious(null); //can put -1 instead //the heap parent
+            vertices.get(vertex).setPrevious(null); //the heap parent
             Q.insert(vertices.get(vertex)); //creates a queue for all vertices in the graph
         }
 
-        //Only if the root isn't empty can we set a distance
         if (vertices.size() > 0) {
             int root = 0;
 
-            //the key of a root is zero - here we set a/any note as root
             vertices.get(root).setDistance(0); //if not empty distance to the roo is 0 - meaning we are starting at 0.
             int position = Q.getPosition(vertices.get(root)); //getting the position of the starting vertex
 
@@ -74,29 +71,21 @@ public class AdjacencyListGraph {
                     //V-U is the list of vertices that haven't been visited
                     Edge v = u.getOutEdges().get(vIndex); //update the distance - done by getting the new outEdge to u
 
-                    //if the weight (key/dist) of edge v is < than the weight of u (the edges new pair/vertex)
-                    //getToV is the opponent of the v which in this case is "from"
-                    //it is of course smaller as long as it hasn't been visited, because then its set as null
                     if (v.getWeight() < v.getToV().distance) {
-                        v.getToV().setDistance(v.getWeight()); //sets the opponents weight/dist as the weight of parent which is v
+                        v.getToV().setDistance(v.getWeight()); //sets the v's weight/dist as the weight of the parent which is v
                         v.getToV().setPrevious(u); //set the u nodes vertex to be v - thereby v is removed from queue
                         int pos = Q.getPosition(v.getToV()); //get position
                         Q.decreaseKey(pos); //Fixing minheap when position changes
-
                     }
-
                 }
 
                 MST += u.distance;
 
-                //print only if parent != null (det er den kun ved root)
                 if (u.previous != null) {
                     //Printing out the edges in the MST
                     System.out.println("Distance from " + u.previous.getName() + " to " + u.getName() + " is " +
                             u.getDistance() + " km.");
                 }
-
-
             }
 
             System.out.println("Minimum Spanning Tree Total:");
@@ -104,10 +93,6 @@ public class AdjacencyListGraph {
             System.out.println("MST distance is: " + MST + " Km");
             //Printing the total price of the spanning tree
             System.out.println("MST price is: " + MST * 100000 + " DKK");
-
-
-
-
 
         }else{
             System.out.println("ERROR: no elements in arraylist this.vertices");
