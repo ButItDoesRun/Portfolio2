@@ -37,6 +37,8 @@ public class MinHeap<T extends Comparable>{
         size++; //the size of an array
         decreaseKey(size-1);
     }
+
+    //this is where my overwrite comparable comes into play
     public  void decreaseKey(int pos){
         int currentpos=pos;
         while(minheap.get(currentpos).compareTo(minheap.get(parent(currentpos)))<0){
