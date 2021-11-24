@@ -16,7 +16,6 @@ public class Main {
         AdjacencyListGraph adjG = new AdjacencyListGraph();
 
         //adding all vertices
-        //The vertex is added outside to it can be accessed when using edges
         Vertex Esk = new Vertex("Eskildstrup");
         adjG.addVertex(Esk);
 
@@ -67,7 +66,6 @@ public class Main {
 
 
         //Adding the Edges
-        //A.addOutEdges(new Edge(A, B, 1));
         adjG.newEdge(Esk, Mar, 28);
         adjG.newEdge(Esk, Nyk, 13);
         adjG.newEdge(Esk, Vor, 25);

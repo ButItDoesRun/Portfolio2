@@ -22,7 +22,7 @@ public class AdjacencyListGraph {
             return;
 
         }
-        //this does that two edges are added pr. newEdge() call to make the graph undirected
+        //makes the graph undirected
         Edge edgeFromTo = new Edge(from, to, dist);
         Edge edgeToFrom = new Edge(to, from, dist);
 
@@ -43,59 +43,43 @@ public class AdjacencyListGraph {
         }
     }
 
-
+    //implementation of prims algorithm
     public void MSTPrims() {
         MinHeap<Vertex> Q = new MinHeap<>();
 
-        for (int vertex = 0; vertex < vertices.size(); vertex++) { //O(V)
+        for (int vertex = 0; vertex < vertices.size(); vertex++) {
             //all vertex dist are set to Max_value (infinity)
-            vertices.get(vertex).setDistance(Integer.MAX_VALUE); //the heap key O(1)
+            vertices.get(vertex).setDistance(Integer.MAX_VALUE);
             //since we don't start out with a predecessor before we iterate we set them all to null
-            vertices.get(vertex).setPrevious(null); //the heap parent O(1)
+            vertices.get(vertex).setPrevious(null);
             Q.insert(vertices.get(vertex)); //creates a queue for all vertices in the graph
-            //To insert into a heap is O(log 2^V)  --> gælder for binear fordi der er 2 børn
-        }
-        //TC = O(V * log2^V)
 
-        if (vertices.size() > 0) { //O(1) for all if
+        }
+
+        if (vertices.size() > 0) {
             int root = 0;
 
-            vertices.get(root).setDistance(0); //if not empty distance to the roo is 0 - meaning we are starting at 0. //O(1)
-            int position = Q.getPosition(vertices.get(root)); //getting the position of the starting vertex //O(1) fordi jeg bruger Hashmap
-
-            Q.decreaseKey(position); //Fixing minheap when root value changes  //O(log 2^V) = O(log V) (same TC as extractMin)
+            vertices.get(root).setDistance(0);
+            int position = Q.getPosition(vertices.get(root));
+            Q.decreaseKey(position);
             int MST = 0;
 
-            //O(V^2 log V) if you multiply the time from whole and for (V*V = V^2) this would be if I had a dense graph
-            //(It would be dense if 10 cites = 100 edges, because the height of a tree is log V therefore 10^2)
-            //Our graph is sparse, because our V isn't connected to all possible E
-            while (!Q.isEmpty()) { //O(V) -- skal ganges på de andre tider
+
+            while (!Q.isEmpty()) {
                 //U contains the list of vertices that have been visited
-                Vertex u = Q.extractMin(); //Edge consists of (u,v). Extract minimum (the smallest u vertex). //O(V * log V)
-                //O(2E), because while a V to a V is one path. An E goes to the 2 V's because it connects both
-                //Therefore instead of making the Time Complexity for the loop a V, we write it as 2E
+                Vertex u = Q.extractMin();
+
                 for (int vIndex = 0; vIndex < u.getOutEdges().size(); vIndex++) { //O(2E), because while a V to a V one path
                     //V-U is the list of vertices that haven't been visited
-                    Edge v = u.getOutEdges().get(vIndex); //update the distance - done by getting the new outEdge to u
+                    Edge v = u.getOutEdges().get(vIndex);
 
                     if (v.getWeight() < v.getToV().distance) {
                         v.getToV().setDistance(v.getWeight()); //sets the v's weight/dist as the weight of the parent which is v
                         v.getToV().setPrevious(u); //set the u nodes vertex to be v - thereby v is removed from queue
-                        int pos = Q.getPosition(v.getToV()); //get position
-                        Q.decreaseKey(pos); //Fixing minheap when position changes O(log V)
+                        int pos = Q.getPosition(v.getToV());
+                        Q.decreaseKey(pos);
                     }
                 }
-
-                /*So if we add it up :
-                TC from the upper for-loop is  = O(V * log2^V)
-                TC from the decreaseKey (heap) is = O(log V) //we ignore the 2 constant for the heap
-                TC from the While/for is = O(2E log V) (log V comes from the decreaseKey() in the if-statement)
-                Ignoring the constants. TC therefore is = O(V log V + log V + E log V)
-                However unlike a * notation where you have to add. A + notation in-between means that we can
-                just take the worst case time.
-                Total TC for my Prims is therefore: O(E log V) or O((V+E) log V) (depends on how you write it
-
-                 */
 
                 MST += u.distance;
 
@@ -130,7 +114,7 @@ class Vertex implements Comparable<Vertex>{
         outEdges = new ArrayList<>();
     }
 
-    //function for adding existing edges (the ones made with newEdge()) to graph
+    //function for adding existing edges to graph
     public void addOutEdges(Edge outEdge){
         outEdges.add(outEdge);
     }
@@ -149,7 +133,7 @@ class Vertex implements Comparable<Vertex>{
 
     }
 
-    //Getters and Setters for class, because variables is rivate
+    //Getters and Setters for class, because variables is private
     public String getName() {
         return name;
     }
@@ -179,13 +163,13 @@ class Vertex implements Comparable<Vertex>{
 class Edge {
     private Vertex fromV;
     private Vertex toV;
-    private Integer weight; // change to Integer to Double if too big
+    private Integer weight;
 
-    public Edge(Vertex from, Vertex to, Integer cost) { //cost is weight
+    public Edge(Vertex from, Vertex to, Integer cost) {
         fromV = from;
         toV = to;
         weight = cost;
-        from.addOutEdges(this); //method to make it easier to add edges (less text)
+        from.addOutEdges(this);
     }
 
 
